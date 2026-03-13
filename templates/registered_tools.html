@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="h4 mb-4 fw-bold"><i class="bi bi-tools"></i> Registered Tools</h2>
+        <form class="row g-3 align-items-center mb-3" onsubmit="return false;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" id="search_name" class="form-control" placeholder="Search Tool Name" oninput="filterTable()">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-funnel"></i></span>
+                    <select id="sort_by" class="form-select" onchange="filterTable()">
+                        <option value="">Sort By Name</option>
+                        <option value="asc">A to Z</option>
+                        <option value="desc">Z to A</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <button id="delete-selected-btn" type="button" class="btn btn-danger" disabled onclick="confirmDeleteSelected()">
+                    <i class="bi bi-trash"></i> Delete Selected Tools (<span id="selected-count">0</span>)
+                </button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table id="tools-table" class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th><i class="bi bi-qr-code"></i> RFID UID</th>
+                        <th><i class="bi bi-tools"></i> Tool Name</th>
+                        <th><i class="bi bi-hash"></i> Model Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tool in tools %}
+                    <tr class="tool-row" data-rfid="{{ tool.rfid_uid }}" onclick="toggleToolSelection(this)" style="cursor: pointer;">
+                        <td>{{ tool.rfid_uid }}</td>
+                        <td>{{ tool.tool_name }}</td>
+                        <td>{{ tool.model_no }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+</div>
+
+<script>
+function filterTable() {
+    const name = document.getElementById('search_name').value.toLowerCase();
+    const sortBy = document.getElementById('sort_by').value;
+    const rows = document.querySelectorAll('#tools-table tbody tr');
+    const visibleRows = [];
+    rows.forEach(row => {
+        const [rfidCell, nameCell, modelCell] = row.children;
+        const match = !name || nameCell.textContent.toLowerCase().includes(name);
+        row.style.display = match ? '' : 'none';
+        if (match) visibleRows.push(row);
+    });
+    // Apply sort
+    if (sortBy === 'asc') {
+        visibleRows.sort((a, b) => a.children[1].textContent.localeCompare(b.children[1].textContent));
+    } else if (sortBy === 'desc') {
+        visibleRows.sort((a, b) => b.children[1].textContent.localeCompare(a.children[1].textContent));
+    }
+    // Reorder rows in DOM
+    const tbody = document.querySelector('#tools-table tbody');
+    if (tbody && visibleRows.length > 0) {
+        visibleRows.forEach(row => {
+            tbody.appendChild(row);
+        });
+    }
+    updateSelectedCount();
+}
+
+function toggleToolSelection(row) {
+    row.classList.toggle('selected');
+    updateSelectedCount();
+}
+
+function updateSelectedCount() {
+    const selectedRows = Array.from(document.querySelectorAll('#tools-table tbody tr.selected'));
+    const count = selectedRows.filter(row => row.style.display !== 'none').length;
+    document.getElementById('selected-count').textContent = count;
+    document.getElementById('delete-selected-btn').disabled = count === 0;
+}
+
+function confirmDeleteSelected() {
+    const count = document.getElementById('selected-count').textContent;
+    if (count === 0) return;
+    
+    // Get all selected RFIDs for verification
+    const selectedRows = document.querySelectorAll('#tools-table tbody tr.selected');
+    const selectedRfids = Array.from(selectedRows)
+        .filter(row => row.style.display !== 'none')
+        .map(row => row.getAttribute('data-rfid'));
+    
+    // Show detailed confirmation with tool names
+    const toolNames = Array.from(selectedRows)
+        .filter(row => row.style.display !== 'none')
+        .map(row => row.children[1].textContent)
+        .join(', ');
+    
+    document.getElementById('modal-count').textContent = count;
+    document.getElementById('modal-tools-list').textContent = toolNames;
+    document.getElementById('modal-delete-btn').dataset.rfids = JSON.stringify(selectedRfids);
+    
+    const modal = new bootstrap.Modal(document.getElementById('delete-modal'));
+    modal.show();
+}
+
+function closeModal() {
+    const modalEl = document.getElementById('delete-modal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+}
+
+function submitDelete() {
+    // Get RFIDs that were verified during confirmation
+    const deleteBtn = document.getElementById('modal-delete-btn');
+    const rfidsStr = deleteBtn.dataset.rfids;
+    const rfids = rfidsStr ? JSON.parse(rfidsStr) : [];
+    
+    if (rfids.length === 0) {
+        showToast('No tools selected for deletion', 'warning');
+        return;
+    }
+    
+    fetch('/delete_selected_tools', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rfids })
+    })
+    .then(res => res.json().then(data => ({ status: res.status, data })))
+    .then(({ status, data }) => {
+        closeModal();
+        if (data.success) {
+            showToast(`Successfully deleted ${data.deleted} tool(s)! Maintenance history preserved.`, 'success');
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showToast(data.message || 'Failed to delete selected tools.', 'danger');
+        }
+    })
+    .catch(error => { 
+        console.error('Delete error:', error);
+        closeModal();
+        showToast('Error deleting tools: ' + error.message, 'danger'); 
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    filterTable();
+    updateSelectedCount();
+    
+    // Attach delete button event listener
+    const deleteBtn = document.getElementById('modal-delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', submitDelete);
+    }
+});
+
+// Bootstrap Toast helper
+function showToast(message, type = 'primary') {
+    const toastEl = document.getElementById('main-toast');
+    const toastBody = document.getElementById('main-toast-body');
+    toastBody.textContent = message;
+    toastEl.className = `toast align-items-center text-bg-${type} border-0`;
+    const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+    toast.show();
+}
+</script>
+
+<!-- Delete confirmation modal (Bootstrap) -->
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the following <span id="modal-count">0</span> tool(s)? This action cannot be undone.</p>
+        <div class="alert alert-warning" style="word-break: break-word;">
+          <strong>Tools to be deleted:</strong><br>
+          <span id="modal-tools-list">None selected</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="modal-delete-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,392 @@
+.clear-btn {
+	background: #e3e8ee;
+	color: #1565c0;
+	border: 1px solid #1565c0;
+	margin-left: 0.7em;
+	padding: 0.6em 2em;
+	border-radius: 0.3em;
+	cursor: pointer;
+	font-size: 1.08em;
+	font-weight: 500;
+	text-decoration: none;
+	transition: background 0.2s, color 0.2s;
+	display: inline-block;
+	margin-top: 5mm;
+}
+.clear-btn {
+	background: #e3e8ee;
+	color: #1565c0;
+	border: 1px solid #1565c0;
+	margin-left: 0.7em;
+	padding: 0.6em 2em;
+	border-radius: 0.3em;
+	cursor: pointer;
+	font-size: 1.08em;
+	font-weight: 500;
+	text-decoration: none;
+	transition: background 0.2s, color 0.2s;
+	display: inline-block;
+}
+.clear-btn:hover {
+	background: #1565c0;
+	color: #fff;
+}
+body {
+	font-family: 'Roboto', Arial, sans-serif;
+	background: #f4f6fa;
+	margin: 0;
+	color: #232946;
+}
+.header-bar {
+	display: flex;
+	align-items: center;
+	background: #003366;
+	color: #fff;
+	padding: 0.7em 2em;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.body {
+	font-family: 'Roboto', Arial, sans-serif;
+	background: #f7fafd;
+	margin: 0;
+	color: #1a2330;
+}
+.header-bar {
+	display: flex;
+	align-items: center;
+	background: #1a2330;
+	color: #fff;
+	padding: 0.7em 2.5em 0.7em 2.5em;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.tata-logo {
+	height: 48px;
+	width: auto;
+	display: block;
+}
+.headline-container {
+	text-align: center;
+	margin-top: 0.5em;
+	margin-bottom: 1.2em;
+}
+.main-headline {
+	font-size: 2.2em;
+	font-weight: 700;
+	color: #1a2330;
+	margin: 0 auto 0.5em auto;
+	letter-spacing: 1px;
+	text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	background: #fff;
+	display: inline-block;
+	padding: 0.2em 1.5em;
+	border-radius: 6px;
+}
+.main-nav-row {
+	display: flex;
+	justify-content: center;
+	gap: 2.2em;
+	margin-top: 0.2em;
+}
+.main-nav-row .nav-link {
+	color: #1a2330;
+	background: none;
+	font-size: 1.08em;
+	font-weight: 500;
+	padding: 0.4em 1.5em 0.4em 1.5em;
+	border: none;
+	border-bottom: 2.5px solid transparent;
+	border-radius: 0;
+	transition: border-color 0.2s, color 0.2s;
+	position: relative;
+	text-decoration: none;
+}
+ .main-nav-row .nav-link.active, .main-nav-row .nav-link:hover {
+	color: #1976d2;
+	border-bottom: 2.5px solid #1976d2;
+	background: none;
+}
+.header-nav {
+		display: flex;
+		align-items: center;
+		gap: 1.5em;
+	}
+	.nav-link {
+		color: #fff;
+		text-decoration: none;
+		font-size: 1.08em;
+		font-weight: 500;
+		padding: 0.2em 0;
+		border: none;
+		background: none;
+		border-bottom: 2.5px solid transparent;
+		transition: border-color 0.2s, color 0.2s;
+	}
+	.nav-link.active, .nav-link:hover {
+		color: #1565c0;
+		border-bottom: 2.5px solid #1565c0;
+		background: none;
+	}
+	.container {
+		max-width: 950px;
+		margin: 2.5em auto;
+		background: #fff;
+		padding: 2.5em 2em;
+		border-radius: 0.5em;
+		box-shadow: 0 2px 8px rgba(10,35,66,0.04);
+	}
+	.card {
+		background: #f7fafd;
+		border: 1px solid #e3e8ee;
+		border-radius: 0.5em;
+		padding: 2em 1.5em;
+		margin-bottom: 2em;
+		box-shadow: none;
+	}
+	h2 {
+		color: #0a2342;
+		border-bottom: 2px solid #1565c0;
+		padding-bottom: 0.3em;
+		margin-bottom: 1.5em;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+	}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 1em;
+		background: #fff;
+		border-radius: 0.5em;
+		overflow: hidden;
+		font-size: 1em;
+	}
+	table th, table td {
+		border: 1px solid #e3e8ee;
+		padding: 0.7em 0.5em;
+		text-align: left;
+	}
+	table th {
+		background: #1565c0;
+		color: #fff;
+		font-weight: 600;
+	}
+	table tr:nth-child(even) {
+		background: #f7fafd;
+	}
+	form label {
+		display: block;
+		margin-top: 1em;
+		font-weight: 500;
+		color: #0a2342;
+	}
+	form input[type="text"],
+	form input[type="date"] {
+		width: 100%;
+		padding: 0.6em 1em;
+		margin-top: 0.5em;
+		border: 1px solid #b0b0b0;
+		border-radius: 0.3em;
+		font-size: 1em;
+		background: #f9f9f9;
+		transition: border 0.2s;
+	}
+	form input[type="text"]:focus,
+	form input[type="date"]:focus {
+		border: 1.5px solid #1565c0;
+		outline: none;
+	}
+	form button, .filter-btn, .pdf-btn {
+		margin-top: 1em;
+		padding: 0.6em 2em;
+		background: #1565c0;
+		color: #fff;
+		border: none;
+		border-radius: 0.3em;
+		cursor: pointer;
+		font-size: 1.08em;
+		font-weight: 500;
+		transition: background 0.2s, color 0.2s;
+		box-shadow: none;
+		text-decoration: none;
+		display: inline-block;
+	}
+	.filter-btn {
+		background: #1565c0;
+		color: #fff;
+	}
+	.filter-btn:hover {
+		background: #0a2342;
+		color: #fff;
+	}
+	.pdf-btn {
+		background: #e3e8ee;
+		color: #1565c0;
+		border: 1px solid #1565c0;
+		margin-left: 0.7em;
+	}
+	.pdf-btn:hover {
+		background: #1565c0;
+		color: #fff;
+	}
+	.filters {
+		display: flex;
+		gap: 1.5em;
+		margin-bottom: 2em;
+		flex-wrap: wrap;
+		align-items: flex-end;
+	}
+	.filters input[type="text"] {
+		border-radius: 0.3em;
+		padding-left: 2.5em;
+		background: #fff;
+		box-shadow: none;
+		max-width: 260px;
+		min-width: 180px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.filters .search-icon-btn {
+		position: absolute;
+		right: 10px;
+		top: 38px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0;
+		z-index: 2;
+	}
+	.filters .search-icon-btn img {
+		width: 22px;
+		height: 22px;
+		vertical-align: middle;
+		opacity: 0.7;
+		transition: opacity 0.2s;
+	}
+	.filters .search-icon-btn:hover img {
+		opacity: 1;
+	}
+
+
+
+	/* ===============================
+   SAFE OVERRIDES (NO LOGIC CHANGE)
+   =============================== */
+
+/* Header cleanup */
+header {
+    background: #0b2a4a;
+}
+
+/* Fix header bar conflict */
+.header-bar {
+    background: #0b2a4a !important;
+    padding: 14px 24px !important;
+}
+
+/* Logo box support */
+.logo-box {
+    background: #ffffff;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+/* Logo size consistency */
+.tata-logo {
+    height: 80px !important;
+}
+
+/* Remove ugly white pill headline */
+.main-headline {
+    background: none !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    text-shadow: none !important;
+}
+
+/* Navigation alignment */
+.main-nav-row {
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Nav link color consistency */
+.main-nav-row .nav-link {
+    color: #dbe6f3 !important;
+}
+
+.main-nav-row .nav-link:hover,
+.main-nav-row .nav-link.active {
+    color: #ffffff !important;
+    border-bottom-color: #ffffff !important;
+}
+
+
+
+/* ===============================
+   HEADER WITH TOOL BACKGROUND
+   =============================== */
+
+.header-bg {
+    position: relative;
+    background: url("../assets/tools_bg.png") center / cover no-repeat;
+    padding: 20px 30px 26px;
+}
+
+/* Dark transparent overlay */
+.header-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 42, 74, 0.78); /* controls transparency */
+    z-index: 1;
+}
+
+/* Content above overlay */
+.header-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Logo + headline in one line */
+.brand-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.logo-box {
+    background: #ffffff;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+.tata-logo {
+    height: 60px;
+    width: auto;
+    display: block;
+}
+
+/* Headline beside logo */
+.brand-title {
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    margin: 0;
+}
+
+/* Navigation refinement */
+.main-nav-row {
+    justify-content: center;
+    gap: 22px;
+}
+
+.main-nav-row .nav-link {
+    color: #dbe6f3;
+}
+
+.main-nav-row .nav-link.active,
+.main-nav-row .nav-link:hover {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+}
